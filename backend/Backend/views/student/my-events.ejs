@@ -1,0 +1,64 @@
+<%- include('../partials/header') %>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+  <div>
+    <h2>My Registered Events</h2>
+    <p style="color: var(--text-muted);">Manage your registrations, access passes and certificates</p>
+  </div>
+  <a href="/events" class="btn btn-primary">Register For Events</a>
+</div>
+
+<% if (registrations && registrations.length > 0) { %>
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>Event</th>
+          <th>Date & Time</th>
+          <th>Venue</th>
+          <th>Ticket Code</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% registrations.forEach(reg => { %>
+          <tr>
+            <td>
+              <strong><%= reg.event_title %></strong><br>
+              <span style="font-size: 0.8rem; color: var(--text-muted);"><%= reg.category %></span>
+            </td>
+            <td><%= reg.event_date %><br><small style="color: var(--text-muted);"><%= reg.event_time %></small></td>
+            <td><%= reg.venue_name || 'Main Campus' %></td>
+            <td><code><%= reg.ticket_code %></code></td>
+            <td>
+              <span class="event-tag" style="background: <%= reg.status === 'Approved' ? 'rgba(16, 185, 129, 0.2)' : (reg.status === 'Attended' ? 'rgba(59, 130, 246, 0.2)' : 'rgba(239, 68, 68, 0.2)') %>; color: <%= reg.status === 'Approved' ? '#6ee7b7' : (reg.status === 'Attended' ? '#93c5fd' : '#fca5a5') %>;">
+                <%= reg.status %>
+              </span>
+            </td>
+            <td>
+              <div style="display: flex; gap: 0.5rem; align-items: center;">
+                <a href="/student/ticket/<%= reg.id %>" class="btn btn-primary" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">Pass</a>
+                <% if (reg.status === 'Approved' || reg.status === 'Attended') { %>
+                  <a href="/student/certificate/<%= reg.id %>" class="btn btn-outline" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">Certificate</a>
+                <% } %>
+                <% if (reg.status !== 'Cancelled' && reg.status !== 'Attended') { %>
+                  <form action="/student/events/<%= reg.event_id %>/cancel" method="POST" style="display: inline;" onsubmit="return confirm('Are you sure you want to cancel your registration?');">
+                    <button type="submit" class="btn btn-danger" style="padding: 0.35rem 0.75rem; font-size: 0.8rem;">Cancel</button>
+                  </form>
+                <% } %>
+              </div>
+            </td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+<% } else { %>
+  <div style="background: var(--card-bg); padding: 3rem; text-align: center; border-radius: var(--radius); border: 1px solid var(--card-border);">
+    <p style="color: var(--text-muted); margin-bottom: 1rem;">No event registrations found under your account.</p>
+    <a href="/events" class="btn btn-primary">Browse All Campus Events</a>
+  </div>
+<% } %>
+
+<%- include('../partials/footer') %>

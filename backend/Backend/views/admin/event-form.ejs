@@ -1,0 +1,95 @@
+<%- include('../partials/header') %>
+
+<div style="max-width: 700px; margin: 0 auto;">
+  <a href="/admin/events" class="btn btn-outline" style="margin-bottom: 1.5rem;">← Back to Events</a>
+
+  <div class="form-card" style="max-width: 100%;">
+    <h2><%= event ? 'Edit Event' : 'Create New Event' %></h2>
+    <p style="color: var(--text-muted); margin-bottom: 1.5rem;">Fill in event schedule, venue and capacity details</p>
+
+    <form action="<%= event ? '/admin/events/' + event.id + '/edit' : '/admin/events/new' %>" method="POST">
+      <div class="form-group">
+        <label>Event Title *</label>
+        <input type="text" name="title" class="form-control" required value="<%= event ? event.title : '' %>" placeholder="e.g. HackSphere 2026">
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div class="form-group">
+          <label>Category *</label>
+          <select name="category" class="form-control" required>
+            <option value="Technical" <%= event && event.category === 'Technical' ? 'selected' : '' %>>Technical</option>
+            <option value="Cultural" <%= event && event.category === 'Cultural' ? 'selected' : '' %>>Cultural</option>
+            <option value="Workshop" <%= event && event.category === 'Workshop' ? 'selected' : '' %>>Workshop</option>
+            <option value="Sports" <%= event && event.category === 'Sports' ? 'selected' : '' %>>Sports</option>
+            <option value="Fest" <%= event && event.category === 'Fest' ? 'selected' : '' %>>Fest</option>
+            <option value="Music" <%= event && event.category === 'Music' ? 'selected' : '' %>>Music</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Campus Venue *</label>
+          <select name="venue_id" class="form-control" required>
+            <% venues.forEach(v => { %>
+              <option value="<%= v.id %>" <%= event && event.venue_id === v.id ? 'selected' : '' %>><%= v.name %> (Cap: <%= v.capacity %>)</option>
+            <% }); %>
+          </select>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <div class="form-group">
+          <label>Event Date *</label>
+          <input type="date" name="event_date" class="form-control" required value="<%= event ? event.event_date : '' %>">
+        </div>
+
+        <div class="form-group">
+          <label>Event Time *</label>
+          <input type="text" name="event_time" class="form-control" required value="<%= event ? event.event_time : '10:00 AM' %>" placeholder="10:00 AM">
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1rem;">
+        <div class="form-group">
+          <label>Max Capacity *</label>
+          <input type="number" name="max_participants" class="form-control" required value="<%= event ? event.max_participants : '150' %>">
+        </div>
+
+        <div class="form-group">
+          <label>Registration Deadline *</label>
+          <input type="date" name="deadline" class="form-control" required value="<%= event ? event.deadline : '' %>">
+        </div>
+
+        <div class="form-group">
+          <label>Status</label>
+          <select name="status" class="form-control">
+            <option value="Upcoming" <%= event && event.status === 'Upcoming' ? 'selected' : '' %>>Upcoming</option>
+            <option value="Ongoing" <%= event && event.status === 'Ongoing' ? 'selected' : '' %>>Ongoing</option>
+            <option value="Completed" <%= event && event.status === 'Completed' ? 'selected' : '' %>>Completed</option>
+            <option value="Cancelled" <%= event && event.status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Organizer Name / Department</label>
+        <input type="text" name="organizer" class="form-control" value="<%= event ? event.organizer : '' %>" placeholder="e.g. Student Technical Council">
+      </div>
+
+      <div class="form-group">
+        <label>Banner Image URL</label>
+        <input type="url" name="banner_image" class="form-control" value="<%= event ? event.banner_image : '' %>" placeholder="https://images.unsplash.com/...">
+      </div>
+
+      <div class="form-group">
+        <label>Event Description *</label>
+        <textarea name="description" class="form-control" rows="4" required placeholder="Describe agenda, prerequisites, prizes, etc."><%= event ? event.description : '' %></textarea>
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">
+        <%= event ? 'Update Event' : 'Publish Event' %>
+      </button>
+    </form>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

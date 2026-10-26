@@ -1,0 +1,30 @@
+<%- include('../partials/header') %>
+
+<div style="max-width: 600px; margin: 0 auto; text-align: center;">
+  <h2>QR Ticket Attendance Check-in 🎟️</h2>
+  <p style="color: var(--text-muted); margin-bottom: 2rem;">Scan or enter student ticket code at event entrance to mark attendance</p>
+
+  <div class="form-card" style="text-align: left; max-width: 100%;">
+    <form action="/admin/verify-ticket" method="POST">
+      <div class="form-group">
+        <label>Enter Ticket Code</label>
+        <input type="text" name="ticket_code" class="form-control" required placeholder="e.g. TKT-HS26-90412" autofocus style="font-family: monospace; font-size: 1.1rem; text-transform: uppercase;">
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">
+        Verify & Mark Attended
+      </button>
+    </form>
+  </div>
+
+  <div style="margin-top: 2rem; text-align: left; background: var(--card-bg); padding: 1.5rem; border-radius: var(--radius); border: 1px solid var(--card-border);">
+    <h4>Quick Instructions:</h4>
+    <ul style="color: var(--text-muted); font-size: 0.9rem; padding-left: 1.25rem; margin-top: 0.5rem; line-height: 1.6;">
+      <li>Students present their digital QR pass on mobile or printed pass.</li>
+      <li>Scanning the QR code extracts the ticket code.</li>
+      <li>Marking as 'Attended' automatically unlocks digital event certificates for the student.</li>
+    </ul>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

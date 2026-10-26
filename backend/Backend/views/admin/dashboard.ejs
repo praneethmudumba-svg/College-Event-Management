@@ -1,0 +1,79 @@
+<%- include('../partials/header') %>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+  <div>
+    <h2>Administrator Control Center 🛡️</h2>
+    <p style="color: var(--text-muted);">Manage events, registrations, tickets, and attendance</p>
+  </div>
+  <div style="display: flex; gap: 0.75rem;">
+    <a href="/admin/events/new" class="btn btn-primary">+ Create New Event</a>
+    <a href="/admin/qr-scanner" class="btn btn-outline">QR Attendance Check-in</a>
+  </div>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-num"><%= stats.totalEvents %></div>
+    <div class="stat-label">Total Events</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num"><%= stats.upcomingEvents %></div>
+    <div class="stat-label">Upcoming Events</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num"><%= stats.totalStudents %></div>
+    <div class="stat-label">Registered Students</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num"><%= stats.totalRegistrations %></div>
+    <div class="stat-label">Active Registrations</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num"><%= stats.totalAttended %></div>
+    <div class="stat-label">Verified Attendees</div>
+  </div>
+</div>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-top: 3rem; margin-bottom: 1rem;">
+  <h3>Recent Event Registrations</h3>
+  <a href="/admin/events" class="btn btn-outline" style="font-size: 0.85rem;">View All Events</a>
+</div>
+
+<% if (recentRegistrations && recentRegistrations.length > 0) { %>
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Roll No</th>
+          <th>Department</th>
+          <th>Event</th>
+          <th>Ticket Code</th>
+          <th>Status</th>
+          <th>Registered At</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% recentRegistrations.forEach(r => { %>
+          <tr>
+            <td><strong><%= r.student_name %></strong></td>
+            <td><%= r.roll_no %></td>
+            <td><%= r.department %></td>
+            <td><%= r.event_title %></td>
+            <td><code><%= r.ticket_code %></code></td>
+            <td>
+              <span class="event-tag" style="background: <%= r.status === 'Approved' ? 'rgba(16, 185, 129, 0.2)' : 'rgba(59, 130, 246, 0.2)' %>; color: <%= r.status === 'Approved' ? '#6ee7b7' : '#93c5fd' %>;">
+                <%= r.status %>
+              </span>
+            </td>
+            <td><small style="color: var(--text-muted);"><%= r.registered_at %></small></td>
+          </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+<% } else { %>
+  <p style="color: var(--text-muted);">No recent registrations.</p>
+<% } %>
+
+<%- include('../partials/footer') %>

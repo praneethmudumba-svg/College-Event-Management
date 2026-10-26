@@ -1,0 +1,52 @@
+<%- include('../partials/header') %>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+  <div>
+    <h2>Welcome, <%= locals.currentStudent.name %> 👋</h2>
+    <p style="color: var(--text-muted);"><%= locals.currentStudent.roll_no %> • <%= locals.currentStudent.department %></p>
+  </div>
+  <a href="/events" class="btn btn-primary">Find More Events</a>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-num"><%= totalRegistered %></div>
+    <div class="stat-label">Events Registered</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num"><%= attendedCount %></div>
+    <div class="stat-label">Events Attended</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num"><%= unreadNotifs %></div>
+    <div class="stat-label">Unread Notifications</div>
+  </div>
+</div>
+
+<h3 style="margin-top: 2.5rem; margin-bottom: 1rem;">My Upcoming Events</h3>
+<% if (upcomingEvents && upcomingEvents.length > 0) { %>
+  <div class="events-grid">
+    <% upcomingEvents.forEach(e => { %>
+      <div class="event-card">
+        <div class="event-body">
+          <span class="event-tag"><%= e.category %></span>
+          <h3 class="event-title"><%= e.title %></h3>
+          <div class="event-meta">📅 <%= e.event_date %> at <%= e.event_time %></div>
+          <div class="event-meta">📍 <%= e.venue_name || 'Main Campus' %></div>
+          <div class="event-meta" style="color: #6ee7b7; font-weight: 600;">🎟️ <%= e.ticket_code %></div>
+          <div class="event-footer">
+            <a href="/events/<%= e.id %>" class="btn btn-outline" style="font-size: 0.85rem;">View Details</a>
+            <a href="/student/ticket/<%= e.id %>" class="btn btn-primary" style="font-size: 0.85rem;">QR Ticket</a>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+  </div>
+<% } else { %>
+  <div style="background: var(--card-bg); padding: 2.5rem; text-align: center; border-radius: var(--radius); border: 1px solid var(--card-border);">
+    <p style="color: var(--text-muted); margin-bottom: 1rem;">You have not registered for any upcoming events yet.</p>
+    <a href="/events" class="btn btn-primary">Browse Available Events</a>
+  </div>
+<% } %>
+
+<%- include('../partials/footer') %>

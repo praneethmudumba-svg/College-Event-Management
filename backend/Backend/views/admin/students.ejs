@@ -1,0 +1,45 @@
+<%- include('../partials/header') %>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+  <div>
+    <h2>Registered Students</h2>
+    <p style="color: var(--text-muted);"><%= students.length %> students enrolled in the college event system</p>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table>
+    <thead>
+      <tr>
+        <th>Student Name</th>
+        <th>Roll No</th>
+        <th>Email</th>
+        <th>Department</th>
+        <th>Phone</th>
+        <th>Registrations</th>
+        <th>Attended</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (students && students.length > 0) { %>
+        <% students.forEach(s => { %>
+          <tr>
+            <td><strong><%= s.name %></strong></td>
+            <td><code><%= s.roll_no %></code></td>
+            <td><%= s.email %></td>
+            <td><%= s.department %></td>
+            <td><%= s.phone || '—' %></td>
+            <td><strong><%= s.reg_count || 0 %></strong></td>
+            <td><span style="color: #6ee7b7;"><%= s.attended_count || 0 %></span></td>
+          </tr>
+        <% }); %>
+      <% } else { %>
+        <tr>
+          <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem;">No students found.</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../partials/footer') %>

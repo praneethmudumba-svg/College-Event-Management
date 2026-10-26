@@ -1,0 +1,27 @@
+<%- include('../partials/header') %>
+
+<div style="max-width: 500px; margin: 2rem auto; text-align: center;">
+  <a href="/student/my-events" class="btn btn-outline" style="margin-bottom: 1.5rem;">← Back to My Events</a>
+
+  <div style="background: var(--card-bg); border: 2px dashed var(--primary); border-radius: var(--radius); padding: 2.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+    <span class="event-tag"><%= ticket.category %> PASS</span>
+    <h2 style="margin: 0.75rem 0 0.5rem;"><%= ticket.event_title %></h2>
+    <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;"><%= ticket.venue_name %> • <%= ticket.event_date %></p>
+
+    <div style="background: white; padding: 1.25rem; border-radius: 12px; display: inline-block; margin-bottom: 1.5rem;">
+      <img src="<%= qrDataUrl %>" alt="Ticket QR" style="display: block; width: 220px; height: 220px;">
+    </div>
+
+    <div style="font-family: monospace; font-size: 1.25rem; font-weight: 700; color: #a5b4fc; letter-spacing: 2px; margin-bottom: 1.5rem;">
+      <%= ticket.ticket_code %>
+    </div>
+
+    <div style="border-top: 1px solid var(--card-border); padding-top: 1.25rem; text-align: left; font-size: 0.85rem; color: var(--text-muted);">
+      <div><strong>Student:</strong> <%= ticket.student_name %></div>
+      <div><strong>Roll No:</strong> <%= ticket.roll_no %></div>
+      <div><strong>Department:</strong> <%= ticket.department %></div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

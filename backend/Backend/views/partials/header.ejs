@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= typeof pageTitle !== 'undefined' ? pageTitle : 'College Event Management' %></title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <header class="navbar">
+    <a href="/" class="nav-brand">✨ CampusPulse</a>
+    <nav class="nav-links">
+      <a href="/events">Explore Events</a>
+      <% if (locals.currentStudent) { %>
+        <a href="/student/dashboard">Student Dashboard</a>
+        <a href="/student/my-events">My Events</a>
+        <a href="/student/notifications">Notifications</a>
+        <a href="/auth/logout" class="btn btn-outline">Sign Out (<%= locals.currentStudent.name.split(' ')[0] %>)</a>
+      <% } else if (locals.currentAdmin) { %>
+        <a href="/admin/dashboard">Admin Dashboard</a>
+        <a href="/admin/events">Manage Events</a>
+        <a href="/admin/reports">Reports</a>
+        <a href="/auth/logout" class="btn btn-outline">Sign Out (Admin)</a>
+      <% } else { %>
+        <a href="/auth/login" class="btn btn-outline">Sign In</a>
+        <a href="/auth/register" class="btn btn-primary">Register</a>
+      <% } %>
+    </nav>
+  </header>
+
+  <main class="main-content">
+    <% if (locals.flash) { %>
+      <div class="alert alert-<%= locals.flash.type %>">
+        <%= locals.flash.message %>
+      </div>
+    <% } %>

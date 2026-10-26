@@ -1,0 +1,65 @@
+<%- include('../partials/header') %>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+  <div>
+    <h2>Campus Venues</h2>
+    <p style="color: var(--text-muted);">Auditoriums, seminar halls, sports complexes, and grounds</p>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem; align-items: flex-start;">
+  <div class="table-responsive" style="margin-top: 0;">
+    <table>
+      <thead>
+        <tr>
+          <th>Venue Name</th>
+          <th>Location</th>
+          <th>Capacity</th>
+          <th>Hosted Events</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (venues && venues.length > 0) { %>
+          <% venues.forEach(v => { %>
+            <tr>
+              <td><strong><%= v.name %></strong></td>
+              <td><%= v.location %></td>
+              <td>👥 <%= v.capacity %> seats</td>
+              <td><strong><%= v.event_count || 0 %></strong></td>
+            </tr>
+          <% }); %>
+        <% } else { %>
+          <tr>
+            <td colspan="4" style="text-align: center; color: var(--text-muted); padding: 2rem;">No venues listed.</td>
+          </tr>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="form-card" style="margin: 0; max-width: 100%;">
+    <h3>Add New Venue</h3>
+    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.25rem;">Register a hall or field for bookings</p>
+
+    <form action="/admin/venues" method="POST">
+      <div class="form-group">
+        <label>Venue Name *</label>
+        <input type="text" name="name" class="form-control" required placeholder="e.g. Science Block Auditorium">
+      </div>
+
+      <div class="form-group">
+        <label>Location / Block</label>
+        <input type="text" name="location" class="form-control" placeholder="Block C, 3rd Floor">
+      </div>
+
+      <div class="form-group">
+        <label>Seating / Field Capacity *</label>
+        <input type="number" name="capacity" class="form-control" required placeholder="350">
+      </div>
+
+      <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 0.5rem;">+ Add Venue</button>
+    </form>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

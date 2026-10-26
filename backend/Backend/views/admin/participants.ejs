@@ -1,0 +1,64 @@
+<%- include('../partials/header') %>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+  <div>
+    <h2><%= event.title %> — Participants</h2>
+    <p style="color: var(--text-muted);"><%= event.event_date %> • <%= participants.length %> registered students</p>
+  </div>
+  <div style="display: flex; gap: 0.75rem;">
+    <a href="/admin/events/<%= event.id %>/export-csv" class="btn btn-outline">📥 Export CSV</a>
+    <a href="/admin/events" class="btn btn-outline">← Back to Events</a>
+  </div>
+</div>
+
+<div class="table-responsive">
+  <table>
+    <thead>
+      <tr>
+        <th>Student</th>
+        <th>Roll No</th>
+        <th>Department</th>
+        <th>Ticket Code</th>
+        <th>Status</th>
+        <th>Registered At</th>
+        <th>Update Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% if (participants && participants.length > 0) { %>
+        <% participants.forEach(p => { %>
+          <tr>
+            <td><strong><%= p.student_name %></strong><br><small style="color: var(--text-muted);"><%= p.email %></small></td>
+            <td><%= p.roll_no %></td>
+            <td><%= p.department %></td>
+            <td><code><%= p.ticket_code %></code></td>
+            <td>
+              <span class="event-tag" style="background: <%= p.status === 'Approved' ? 'rgba(16, 185, 129, 0.2)' : (p.status === 'Attended' ? 'rgba(59, 130, 246, 0.2)' : 'rgba(239, 68, 68, 0.2)') %>; color: <%= p.status === 'Approved' ? '#6ee7b7' : (p.status === 'Attended' ? '#93c5fd' : '#fca5a5') %>;">
+                <%= p.status %>
+              </span>
+            </td>
+            <td><small style="color: var(--text-muted);"><%= p.registered_at %></small></td>
+            <td>
+              <form action="/admin/registrations/<%= p.id %>/status" method="POST" style="display: flex; gap: 0.35rem;">
+                <input type="hidden" name="redirect_to" value="/admin/events/<%= event.id %>/participants">
+                <select name="status" class="form-control" style="padding: 0.25rem 0.5rem; font-size: 0.8rem; width: auto;">
+                  <option value="Approved" <%= p.status === 'Approved' ? 'selected' : '' %>>Approved</option>
+                  <option value="Attended" <%= p.status === 'Attended' ? 'selected' : '' %>>Attended</option>
+                  <option value="Rejected" <%= p.status === 'Rejected' ? 'selected' : '' %>>Rejected</option>
+                  <option value="Cancelled" <%= p.status === 'Cancelled' ? 'selected' : '' %>>Cancelled</option>
+                </select>
+                <button type="submit" class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">Save</button>
+              </form>
+            </td>
+          </tr>
+        <% }); %>
+      <% } else { %>
+        <tr>
+          <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 2rem;">No student registrations for this event yet.</td>
+        </tr>
+      <% } %>
+    </tbody>
+  </table>
+</div>
+
+<%- include('../partials/footer') %>

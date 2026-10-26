@@ -1,0 +1,53 @@
+<%- include('../partials/header') %>
+
+<div class="form-card" style="max-width: 540px;">
+  <h2 style="text-align: center; margin-bottom: 0.5rem;">Student Registration</h2>
+  <p style="text-align: center; color: var(--text-muted); margin-bottom: 1.5rem;">Create your campus event account</p>
+
+  <form action="/auth/register" method="POST">
+    <div class="form-group">
+      <label>Full Name *</label>
+      <input type="text" name="name" class="form-control" required placeholder="e.g. Ananya Sharma">
+    </div>
+
+    <div class="form-group">
+      <label>College Email *</label>
+      <input type="email" name="email" class="form-control" required placeholder="ananya@college.edu">
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+      <div class="form-group">
+        <label>Roll / Reg Number *</label>
+        <input type="text" name="roll_no" class="form-control" required placeholder="23CS042">
+      </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="tel" name="phone" class="form-control" placeholder="+91 9876543210">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Department / Branch *</label>
+      <input type="text" name="department" class="form-control" required placeholder="Computer Science & Engineering">
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+      <div class="form-group">
+        <label>Password *</label>
+        <input type="password" name="password" class="form-control" required placeholder="••••••••">
+      </div>
+      <div class="form-group">
+        <label>Confirm Password *</label>
+        <input type="password" name="confirm_password" class="form-control" required placeholder="••••••••">
+      </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 1rem;">Complete Registration</button>
+  </form>
+
+  <div style="margin-top: 1.25rem; text-align: center; font-size: 0.85rem;">
+    Already have an account? <a href="/auth/login" style="color: var(--primary);">Sign in here</a>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

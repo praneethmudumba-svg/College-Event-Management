@@ -1,0 +1,81 @@
+<%- include('../partials/header') %>
+
+<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+  <div>
+    <h2>Event Analytics & Participation Reports 📊</h2>
+    <p style="color: var(--text-muted);">Campus-wide metrics, attendance rates and top events</p>
+  </div>
+</div>
+
+<div class="stats-grid">
+  <div class="stat-card">
+    <div class="stat-num"><%= stats.totalEvents %></div>
+    <div class="stat-label">Total Events</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num"><%= stats.totalRegistrations %></div>
+    <div class="stat-label">Total Registrations</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num"><%= stats.totalAttended %></div>
+    <div class="stat-label">Attended Students</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num"><%= stats.attendanceRate %>%</div>
+    <div class="stat-label">Overall Attendance Rate</div>
+  </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+  <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 1.5rem;">
+    <h3 style="margin-bottom: 1rem;">Category Breakdown</h3>
+    <table style="width: 100%;">
+      <thead>
+        <tr>
+          <th>Category</th>
+          <th>Events</th>
+          <th>Registrations</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (categoryStats && categoryStats.length > 0) { %>
+          <% categoryStats.forEach(c => { %>
+            <tr>
+              <td><span class="event-tag"><%= c.category %></span></td>
+              <td><%= c.event_count %></td>
+              <td><strong><%= c.total_regs || 0 %></strong></td>
+            </tr>
+          <% }); %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 1.5rem;">
+    <h3 style="margin-bottom: 1rem;">Top Events by Engagement</h3>
+    <table style="width: 100%;">
+      <thead>
+        <tr>
+          <th>Event</th>
+          <th>Date</th>
+          <th>Registrations</th>
+          <th>Attended</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% if (topEvents && topEvents.length > 0) { %>
+          <% topEvents.forEach(te => { %>
+            <tr>
+              <td><strong><%= te.title %></strong></td>
+              <td><small><%= te.event_date %></small></td>
+              <td><strong><%= te.total_regs || 0 %></strong></td>
+              <td><span style="color: #6ee7b7;"><%= te.attended_count || 0 %></span></td>
+            </tr>
+          <% }); %>
+        <% } %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

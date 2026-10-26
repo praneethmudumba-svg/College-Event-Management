@@ -1,0 +1,82 @@
+<%- include('../partials/header') %>
+
+<div style="max-width: 900px; margin: 0 auto;">
+  <a href="/events" class="btn btn-outline" style="margin-bottom: 1.5rem;">← Back to Events</a>
+
+  <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius); overflow: hidden;">
+    <img src="<%= event.banner_image || 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1200&q=80' %>" alt="<%= event.title %>" style="width: 100%; height: 350px; object-fit: cover;">
+    
+    <div style="padding: 2.5rem;">
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 1rem; flex-wrap: wrap;">
+        <div>
+          <span class="event-tag"><%= event.category %></span>
+          <h1 style="font-size: 2.2rem; margin: 0.5rem 0 1rem;"><%= event.title %></h1>
+        </div>
+
+        <div>
+          <% if (locals.currentStudent) { %>
+            <% if (studentRegistration && studentRegistration.status !== 'Cancelled') { %>
+              <div style="display: flex; gap: 0.75rem; align-items: center;">
+                <span class="btn btn-success" style="cursor: default;">✓ Registered</span>
+                <a href="/student/ticket/<%= studentRegistration.id %>" class="btn btn-primary">View Ticket</a>
+              </div>
+            <% } else { %>
+              <form action="/student/events/<%= event.id %>/register" method="POST">
+                <button type="submit" class="btn btn-primary">Register Now</button>
+              </form>
+            <% } %>
+          <% } else if (locals.currentAdmin) { %>
+            <a href="/admin/events/<%= event.id %>/edit" class="btn btn-outline">Edit Event</a>
+          <% } else { %>
+            <a href="/auth/login?role=student" class="btn btn-primary">Sign in to Register</a>
+          <% } %>
+        </div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin: 2rem 0; padding: 1.5rem; background: rgba(15, 23, 42, 0.4); border-radius: var(--radius); border: 1px solid var(--card-border);">
+        <div>
+          <strong style="display: block; color: var(--text-muted); font-size: 0.85rem;">Date & Time</strong>
+          <span style="font-size: 1rem;">📅 <%= event.event_date %> | <%= event.event_time %></span>
+        </div>
+        <div>
+          <strong style="display: block; color: var(--text-muted); font-size: 0.85rem;">Venue</strong>
+          <span style="font-size: 1rem;">📍 <%= event.venue_name %> (<%= event.venue_location %>)</span>
+        </div>
+        <div>
+          <strong style="display: block; color: var(--text-muted); font-size: 0.85rem;">Organizer</strong>
+          <span style="font-size: 1rem;">🏛️ <%= event.organizer %></span>
+        </div>
+        <div>
+          <strong style="display: block; color: var(--text-muted); font-size: 0.85rem;">Attendance Capacity</strong>
+          <span style="font-size: 1rem;">👥 <%= event.registered_count %> / <%= event.max_participants %> slots filled</span>
+        </div>
+      </div>
+
+      <h3 style="margin-bottom: 0.75rem;">About this Event</h3>
+      <p style="color: var(--text-muted); line-height: 1.7; font-size: 1.05rem; white-space: pre-line;">
+        <%= event.description %>
+      </p>
+
+      <div style="margin-top: 3rem; border-top: 1px solid var(--card-border); padding-top: 2rem;">
+        <h3>Participant Reviews & Feedback</h3>
+        <% if (feedbacks && feedbacks.length > 0) { %>
+          <div style="margin-top: 1rem;">
+            <% feedbacks.forEach(fb => { %>
+              <div style="padding: 1rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                <div style="display: flex; justify-content: space-between;">
+                  <strong><%= fb.student_name %> (<%= fb.student_department %>)</strong>
+                  <span style="color: #fbbf24;">★ <%= fb.rating %>/5</span>
+                </div>
+                <p style="color: var(--text-muted); margin-top: 0.4rem; font-size: 0.9rem;"><%= fb.comment %></p>
+              </div>
+            <% }); %>
+          </div>
+        <% } else { %>
+          <p style="color: var(--text-muted); margin-top: 0.5rem; font-size: 0.95rem;">No reviews yet. Be the first to attend and rate!</p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>

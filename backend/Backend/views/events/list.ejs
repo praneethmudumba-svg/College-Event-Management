@@ -1,0 +1,54 @@
+<%- include('../partials/header') %>
+
+<div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; margin-bottom: 2rem;">
+  <div>
+    <h2>Explore Campus Events</h2>
+    <p style="color: var(--text-muted);">Find fests, competitions, workshops, and sports tournaments</p>
+  </div>
+</div>
+
+<!-- Search & Filters -->
+<form action="/events" method="GET" style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2rem; background: var(--card-bg); padding: 1.25rem; border-radius: var(--radius); border: 1px solid var(--card-border);">
+  <input type="text" name="search" value="<%= selectedSearch %>" placeholder="Search by name, organizer..." class="form-control" style="flex: 2; min-width: 200px;">
+  
+  <select name="category" class="form-control" style="flex: 1; min-width: 150px;">
+    <option value="All">All Categories</option>
+    <% categories.forEach(cat => { %>
+      <option value="<%= cat %>" <%= selectedCategory === cat ? 'selected' : '' %>><%= cat %></option>
+    <% }); %>
+  </select>
+
+  <select name="status" class="form-control" style="flex: 1; min-width: 130px;">
+    <option value="All" <%= selectedStatus === 'All' ? 'selected' : '' %>>All Statuses</option>
+    <option value="Upcoming" <%= selectedStatus === 'Upcoming' ? 'selected' : '' %>>Upcoming</option>
+    <option value="Completed" <%= selectedStatus === 'Completed' ? 'selected' : '' %>>Completed</option>
+  </select>
+
+  <button type="submit" class="btn btn-primary">Filter</button>
+  <a href="/events" class="btn btn-outline">Reset</a>
+</form>
+
+<div class="events-grid">
+  <% if (events && events.length > 0) { %>
+    <% events.forEach(event => { %>
+      <div class="event-card">
+        <img class="event-img" src="<%= event.banner_image || 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?auto=format&fit=crop&w=1200&q=80' %>" alt="<%= event.title %>">
+        <div class="event-body">
+          <span class="event-tag"><%= event.category %></span>
+          <h3 class="event-title"><%= event.title %></h3>
+          <p class="event-desc"><%= event.description.length > 100 ? event.description.substring(0, 100) + '...' : event.description %></p>
+          <div class="event-meta">📅 <%= event.event_date %> • <%= event.event_time %></div>
+          <div class="event-meta">📍 <%= event.venue_name || 'Main Campus' %></div>
+          <div class="event-footer">
+            <span style="font-size: 0.85rem; color: var(--text-muted);"><%= event.registered_count %> registered</span>
+            <a href="/events/<%= event.id %>" class="btn btn-primary" style="padding: 0.4rem 0.85rem; font-size: 0.85rem;">Details & Register</a>
+          </div>
+        </div>
+      </div>
+    <% }); %>
+  <% } else { %>
+    <p style="color: var(--text-muted); grid-column: 1/-1; text-align: center; padding: 3rem;">No events match your search criteria.</p>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>

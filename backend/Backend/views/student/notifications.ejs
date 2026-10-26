@@ -1,0 +1,26 @@
+<%- include('../partials/header') %>
+
+<div style="max-width: 800px; margin: 0 auto;">
+  <h2>Student Notifications</h2>
+  <p style="color: var(--text-muted); margin-bottom: 2rem;">Updates regarding registrations, schedule changes, and event announcements</p>
+
+  <% if (notifications && notifications.length > 0) { %>
+    <div style="display: flex; flex-direction: column; gap: 1rem;">
+      <% notifications.forEach(n => { %>
+        <div style="background: var(--card-bg); border: 1px solid var(--card-border); border-radius: var(--radius); padding: 1.25rem 1.5rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 0.35rem;">
+            <strong style="color: #a5b4fc;"><%= n.title %></strong>
+            <small style="color: var(--text-muted);"><%= n.created_at %></small>
+          </div>
+          <p style="color: var(--text); font-size: 0.95rem; line-height: 1.5;"><%= n.message %></p>
+        </div>
+      <% }); %>
+    </div>
+  <% } else { %>
+    <div style="background: var(--card-bg); padding: 3rem; text-align: center; border-radius: var(--radius); border: 1px solid var(--card-border);">
+      <p style="color: var(--text-muted);">You have no notifications at this time.</p>
+    </div>
+  <% } %>
+</div>
+
+<%- include('../partials/footer') %>
